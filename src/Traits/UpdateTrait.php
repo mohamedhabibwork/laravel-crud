@@ -4,14 +4,12 @@ namespace Habib\LaravelCrud\Traits;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 trait UpdateTrait
 {
     /**
      * Update the specified resource in storage.
      *
-     * @return JsonResponse|RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(): JsonResponse|RedirectResponse
@@ -36,7 +34,7 @@ trait UpdateTrait
 
         $message = __('dashboard.updated', [
             'model' => $repository->getTranslate('singular'),
-            'user' => $user
+            'user' => $user,
         ]);
 
         activity()

@@ -11,8 +11,9 @@ trait CreateTrait
     /**
      * Show the form for creating a new resource.
      *
-     * @param Request $request The incoming HTTP request
+     * @param  Request  $request  The incoming HTTP request
      * @return View The view for creating a new resource
+     *
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create(Request $request): View

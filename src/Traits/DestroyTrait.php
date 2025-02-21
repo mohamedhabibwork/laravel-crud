@@ -11,8 +11,8 @@ trait DestroyTrait
     /**
      * Remove the specified resource from storage.
      *
-     * @param Request $request The incoming HTTP request
-     * @return JsonResponse|RedirectResponse
+     * @param  Request  $request  The incoming HTTP request
+     *
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Request $request): JsonResponse|RedirectResponse

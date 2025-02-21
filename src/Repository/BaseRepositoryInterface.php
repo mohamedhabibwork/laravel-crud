@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Habib\LaravelCrud\Repository;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 /**
@@ -41,17 +41,17 @@ interface BaseRepositoryInterface
     /**
      * Find a model by its primary key
      *
-     * @param TModel|int|string $id
-     * @param array<string> $columns
-     * @param array<string> $with
+     * @param  TModel|int|string  $id
+     * @param  array<string>  $columns
+     * @param  array<string>  $with
      * @return TModel|null
      */
     /**
      * Find a model by its primary key
      *
-     * @param TModel|int|string $id
-     * @param array<string> $columns
-     * @param array<string> $with
+     * @param  TModel|int|string  $id
+     * @param  array<string>  $columns
+     * @param  array<string>  $with
      * @return TModel|null
      */
     public function find(Model|int|string $id, array $columns = ['*'], array $with = [], bool $lock = false): ?Model;
@@ -76,7 +76,7 @@ interface BaseRepositoryInterface
     /**
      * Modify the search query
      *
-     * @param QueryBuilder<TModel>|Builder<TModel> $query
+     * @param  QueryBuilder<TModel>|Builder<TModel>  $query
      * @return QueryBuilder<TModel>|Builder<TModel>
      */
     public function setSearchQuery(QueryBuilder|Builder $query): QueryBuilder|Builder;
@@ -91,7 +91,7 @@ interface BaseRepositoryInterface
     /**
      * Get the form fields for the model
      *
-     * @param TModel $model
+     * @param  TModel  $model
      * @return array<string, mixed>
      */
     public function fields(Model $model): array;
@@ -106,8 +106,8 @@ interface BaseRepositoryInterface
     /**
      * Get all records with optional filtering
      *
-     * @param array<string> $columns
-     * @param array<string> $with
+     * @param  array<string>  $columns
+     * @param  array<string>  $with
      * @return Collection<int, TModel>
      */
     public function all(array $columns = ['*'], array $with = []): Collection;
@@ -115,8 +115,8 @@ interface BaseRepositoryInterface
     /**
      * Paginate the filtered results
      *
-     * @param array<string> $columns
-     * @param array<string> $with
+     * @param  array<string>  $columns
+     * @param  array<string>  $with
      * @return LengthAwarePaginator<TModel>
      */
     public function paginate(int $perPage = 15, array $columns = ['*'], array $with = []): LengthAwarePaginator;
@@ -124,7 +124,7 @@ interface BaseRepositoryInterface
     /**
      * Create a new model instance
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      * @return TModel
      */
     public function create(array $data): Model;
@@ -132,8 +132,8 @@ interface BaseRepositoryInterface
     /**
      * Update an existing model instance
      *
-     * @param TModel|int|string $id
-     * @param array<string, mixed> $data
+     * @param  TModel|int|string  $id
+     * @param  array<string, mixed>  $data
      * @return TModel|null
      */
     public function update($id, array $data = []): ?Model;
@@ -141,8 +141,7 @@ interface BaseRepositoryInterface
     /**
      * Delete a model instance
      *
-     * @param TModel|int|string $id
-     * @return bool
+     * @param  TModel|int|string  $id
      */
     public function delete($id): bool;
 
@@ -155,5 +154,4 @@ interface BaseRepositoryInterface
      * Get the request instance for update operations
      */
     public function getUpdateRequest(): ?Request;
-
 }

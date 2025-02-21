@@ -6,12 +6,12 @@ namespace Habib\LaravelCrud\Repository;
 
 use Habib\LaravelCrud\Helper\Helper;
 use Habib\LaravelCrud\Helper\MediaUploader;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
@@ -40,7 +40,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
     abstract public function getModel(): Model;
 
     /**
-     * @param TModel $model
+     * @param  TModel  $model
      * @return array<string, mixed>
      */
     public function fields(Model $model): array
@@ -48,12 +48,14 @@ abstract class BaseRepository implements BaseRepositoryInterface
         if (method_exists($model, 'getForm')) {
             /** @var callable():array<string,mixed> $getForm */
             $getForm = [$model, 'getForm'];
+
             return $getForm();
         }
 
         if (method_exists($this, 'getForm')) {
             /** @var callable(Model):array<string,mixed> $getForm */
             $getForm = [$this, 'getForm'];
+
             return $getForm($model);
         }
 
@@ -102,10 +104,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
     }
 
     /**
-     * @param Builder<TModel> $query
-     * @param string $op
-     * @param string $name
-     * @param mixed $value
+     * @param  Builder<TModel>  $query
      * @return Builder<TModel>
      */
     protected function executeQuery(Builder $query, string $op, string $name, mixed $value): Builder
@@ -124,7 +123,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
     }
 
     /**
-     * @param TModel&HasMedia $model
+     * @param  TModel&HasMedia  $model
      *
      * @throws FileCannotBeAdded
      * @throws FileDoesNotExist
@@ -142,9 +141,8 @@ abstract class BaseRepository implements BaseRepositoryInterface
     }
 
     /**
-     * @param Model|int|string $id
-     * @param array<string> $columns
-     * @param array<string> $with
+     * @param  array<string>  $columns
+     * @param  array<string>  $with
      * @return TModel|null
      */
     public function find(Model|int|string $id, array $columns = ['*'], array $with = [], bool $lock = false): ?Model
@@ -197,7 +195,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
     /**
      * Modify the search query
      *
-     * @param QueryBuilder<TModel>|Builder<TModel> $query
+     * @param  QueryBuilder<TModel>|Builder<TModel>  $query
      * @return QueryBuilder<TModel>|Builder<TModel>
      */
     public function setSearchQuery(QueryBuilder|Builder $query): QueryBuilder|Builder
@@ -206,8 +204,8 @@ abstract class BaseRepository implements BaseRepositoryInterface
     }
 
     /**
-     * @param array<string> $columns
-     * @param array<string> $with
+     * @param  array<string>  $columns
+     * @param  array<string>  $with
      * @return Collection<int, TModel>
      */
     public function all(array $columns = ['*'], array $with = []): Collection
@@ -216,8 +214,8 @@ abstract class BaseRepository implements BaseRepositoryInterface
     }
 
     /**
-     * @param array<string> $columns
-     * @param array<string> $with
+     * @param  array<string>  $columns
+     * @param  array<string>  $with
      * @return LengthAwarePaginator<TModel>
      */
     public function paginate(int $perPage = 15, array $columns = ['*'], array $with = []): LengthAwarePaginator
@@ -226,7 +224,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      * @return TModel
      */
     public function create(array $data): Model
@@ -235,7 +233,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
         $model = $this->getModel()->newInstance($data);
         $model->save();
 
-        if ($model instanceof HasMedia && !empty($this->files)) {
+        if ($model instanceof HasMedia && ! empty($this->files)) {
             $this->uploadFiles($model, $data);
         }
 
@@ -243,21 +241,21 @@ abstract class BaseRepository implements BaseRepositoryInterface
     }
 
     /**
-     * @param TModel|int|string $id
-     * @param array<string, mixed> $data
+     * @param  TModel|int|string  $id
+     * @param  array<string, mixed>  $data
      * @return TModel|null
      */
     public function update($id, array $data = []): ?Model
     {
         $model = $id instanceof Model ? $id : $this->find($id);
-        if (!$model) {
+        if (! $model) {
             return null;
         }
 
         $model->fill($data);
         $model->save();
 
-        if ($model instanceof HasMedia && !empty($this->files)) {
+        if ($model instanceof HasMedia && ! empty($this->files)) {
             $this->uploadFiles($model, $data);
         }
 
@@ -265,12 +263,12 @@ abstract class BaseRepository implements BaseRepositoryInterface
     }
 
     /**
-     * @param TModel|int|string $id
+     * @param  TModel|int|string  $id
      */
     public function delete($id): bool
     {
         $model = $id instanceof Model ? $id : $this->find($id);
-        if (!$model) {
+        if (! $model) {
             return false;
         }
 

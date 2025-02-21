@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Habib\LaravelCrud\Helper;
 
-use Illuminate\Support\Arr;
 use Illuminate\Http\UploadedFile;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -18,8 +17,9 @@ final class MediaUploader
     /**
      * Upload a file to media library
      *
-     * @param HasMedia&InteractsWithMedia $model
-     * @param UploadedFile|Media|string|array<int, UploadedFile>|null $file
+     * @param  HasMedia&InteractsWithMedia  $model
+     * @param  UploadedFile|Media|string|array<int, UploadedFile>|null  $file
+     *
      * @throws FileCannotBeAdded
      * @throws FileDoesNotExist
      * @throws FileIsTooBig
@@ -66,7 +66,7 @@ final class MediaUploader
     /**
      * Handle string file upload
      *
-     * @param HasMedia&InteractsWithMedia $model
+     * @param  HasMedia&InteractsWithMedia  $model
      */
     private static function handleStringFile(HasMedia $model, string $file, string $collection): Media|string
     {
