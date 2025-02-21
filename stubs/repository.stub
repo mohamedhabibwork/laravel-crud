@@ -1,0 +1,119 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\DataTables\Dashboard\{{ model }}\{{ model }}DataTable;
+use App\Http\Repository\BaseRepository;
+use App\Http\Requests\Dashboard\{{ model }}\Store{{ model }}Request;
+use App\Http\Requests\Dashboard\{{ model }}\Update{{ model }}Request;
+use App\Models\{{ model }};
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+
+/**
+ * Class {{ model }}Repository
+ * @template-extends BaseRepository<{{ model }}>
+ */
+class {{ class }} extends BaseRepository implements {{ class }}Interface
+{
+    protected string $key = '{{singularModel}}';
+
+      public function getFiles(): array
+      {
+          return [
+              'image',
+          ];
+      }
+
+      public function datatable(\Illuminate\Http\Request $request): {{ model }}DataTable
+      {
+          return (new {{ model }}DataTable());
+      }
+
+      /**
+       * @return {{ model }}
+       */
+      public function getModel(): {{ model }}
+      {
+          return new {{ model }}();
+      }
+
+
+      public function update({{ model }}|int|string $id, array $data = []): ?{{ model }}
+      {
+          return DB::transaction(function () use ($id, $data) {
+              ${{ singularModel }} = $id instanceof {{ model }} ? $id : $this->find($id);
+              if (!${{ singularModel }}) {
+                  throw new ModelNotFoundException(
+                      __('dashboard.not_found', ['model' => __("dashboard.{$this->key}.singular")]),
+                  );
+              }
+
+              ${{ singularModel }}->update(Arr::except($data, $this->getFiles()));
+
+              //$this->uploadFiles(${{ singularModel }}, Arr::only($data, $this->getFiles()));
+              $this->sync(${{ singularModel }},$data);
+
+              return ${{ singularModel }};
+          });
+      }
+
+      public function create(array $data, \App\Models\User $user): ?{{ model }}
+      {
+          return DB::transaction(function () use ($data) {
+              ${{ singularModel }} = {{ model }}::create(Arr::except($data, $this->getFiles()));
+
+              //$this->uploadFiles(${{ singularModel }}, Arr::only($data, $this->getFiles()));
+              $this->sync(${{ singularModel }},$data);
+              return ${{ singularModel }};
+          });
+      }
+
+      public function delete({{ model }}|int|string $id): bool
+      {
+          return DB::transaction(function () use ($id) {
+              ${{ singularModel }} = $id instanceof {{ model }} ? $id : $this->find($id);
+              if (!${{ singularModel }}) {
+                  throw new ModelNotFoundException(
+                      __('dashboard.not_found', ['model' => __("dashboard.{$this->key}.singular")]),
+                  );
+              }
+
+              ${{ singularModel }}->delete();
+
+              return true;
+          });
+      }
+
+      public function bulkDelete(array $ids): bool
+      {
+          return DB::transaction(fn() => $this->getModel()->newQuery()->whereIn('id', $ids)->delete());
+      }
+
+      /**
+       * @param {{ model }} $model
+       * @return array
+       */
+      public function getForm({{ model }} $model): array
+      {
+          return [
+              DummyColumns
+          ];
+      }
+
+      public function getCreateRequest(): Store{{ model }}Request
+      {
+          return app(Store{{ model }}Request::class);
+      }
+
+      public function getUpdateRequest(): Update{{ model }}Request
+      {
+          return app(Update{{ model }}Request::class);
+      }
+
+      public function sync({{ model }} $model ,array $data = [])
+      {
+
+      }
+}

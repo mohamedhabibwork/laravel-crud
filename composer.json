@@ -1,24 +1,33 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "mohamedhabibwork/laravel-crud",
+    "description": "This is my package laravel-crud",
     "keywords": [
-        ":vendor_name",
+        "Mohamed Habib",
         "laravel",
-        ":package_slug"
+        "laravel-crud"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/mohamedhabibwork/laravel-crud",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Mohamed Habib",
+            "email": "mohamedhabibwork@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": "^8.2",
+        "illuminate/contracts": "^10.0||^11.0",
+        "illuminate/database": "^10.0||^11.0",
+        "spatie/laravel-html": "^3.11",
+        "spatie/laravel-medialibrary": "^11.12",
         "spatie/laravel-package-tools": "^1.16",
-        "illuminate/contracts": "^10.0||^11.0"
+        "spatie/laravel-permission": "^6.15",
+        "spatie/laravel-query-builder": "^6.3",
+        "yajra/laravel-datatables": "^11.0",
+        "yajra/laravel-datatables-buttons": "^11.2",
+        "yajra/laravel-datatables-html": "^11.8",
+        "yajra/laravel-datatables-oracle": "^11.1"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
@@ -35,13 +44,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Habib\\LaravelCrud\\": "src/",
+            "Habib\\LaravelCrud\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Habib\\LaravelCrud\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -63,10 +72,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Habib\\LaravelCrud\\LaravelCrudServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "LaravelCrud": "Habib\\LaravelCrud\\Facades\\LaravelCrud"
             }
         }
     },

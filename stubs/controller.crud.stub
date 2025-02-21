@@ -1,0 +1,32 @@
+<?php
+
+namespace {{ namespace }};
+
+
+use {{ rootNamespace }}Http\Controllers\Dashboard\CrudController;
+use {{ rootNamespace }}Http\Controllers\Dashboard\Traits\{
+    CreateTrait,
+    DestroyTrait,
+    EditTrait,
+    IndexTrait,
+    ShowTrait,
+    SocketTrait,
+    StoreTrait,
+    UpdateTrait};
+use {{ rootNamespace }}Http\Repository\{{ model }}\{{ model }}RepositoryInterface;
+use {{ rootNamespace }}Http\Repository\{{ model }}\{{ model }}Repository;
+
+
+
+class {{ class }} extends CrudController
+{
+   use IndexTrait, StoreTrait, UpdateTrait, ShowTrait, DestroyTrait, DestroyTrait, CreateTrait, EditTrait, SocketTrait;
+
+   /**
+    * @return {{ model }}Repository
+    */
+   public function getRepository()
+   {
+       return app({{ model }}RepositoryInterface::class);
+   }
+}

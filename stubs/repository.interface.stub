@@ -1,0 +1,61 @@
+<?php
+
+namespace {{ namespace }};
+
+
+use App\DataTables\Dashboard\{{ model }}\{{ model }}DataTable;
+use App\Http\Repository\BaseRepositoryInterface;
+use App\Http\Requests\Dashboard\{{ model }}\Store{{ model }}Request;
+use App\Http\Requests\Dashboard\{{ model }}\Update{{ model }}Request;
+use App\Models\{{ model }};
+use Yajra\DataTables\Services\DataTable;
+
+/**
+ * Interface {{ model }}RepositoryInterface
+ * @package App\Http\Repository\{{ model }}
+ * @template-extends BaseRepositoryInterface<{{ model }}>
+ */
+interface {{ class }} extends BaseRepositoryInterface
+{ 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return {{ model }}DataTable|DataTable
+     */
+    public function datatable(\Illuminate\Http\Request $request);
+
+    /**
+     * @param string|int|{{ model }} $id
+     * @param array $data
+     * @return {{ model }}|null
+     */
+    public function update(string|int|{{ model }} $id, array $data = []): ?{{ model }};
+
+    /**
+     * @param array $data
+     * @return {{ model }}|null
+     */
+    public function create(array $data, \App\Models\User $user): ?{{ model }};
+
+    /**
+     * @param {{ model }}|int|string $id
+     * @return bool
+     */
+    public function delete({{ model }}|int|string $id): bool;
+
+    /**
+     * @param {{ model }}|int|string $id
+     * @return bool
+     */
+    public function bulkDelete(array $ids): bool;
+
+    /**
+     * @return Store{{ model }}Request
+     */
+    public function getCreateRequest(): Store{{ model }}Request;
+
+    /**
+     * @return Update{{ model }}Request
+     */
+    public function getUpdateRequest(): Update{{ model }}Request;
+
+}
